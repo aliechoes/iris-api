@@ -1,5 +1,6 @@
 import pickle
 import sklearn
+from sklearn.neighbors import KNeighborsClassifier
 import json
 import numpy as np
 import falcon
@@ -16,7 +17,7 @@ def predict_knn(features, model):
 class IrisPredictor():
     def __init__(self, model_path, logger):
         self.logger = logger
-        self.model = pickle.load(model_path)
+        self.model = pickle.load(open(model_path, 'rb'))
         self.logger.info("Starting: IrisPredictor")
     
     def on_post(self, req, resp):
@@ -42,18 +43,18 @@ class IrisPredictor():
             
             if not isinstance(features, list):
                 resp.status = falcon.HTTP_400
-                resp.body = "Invalid JSON. 'features' must be a list"
+                resp.body = "Invalid JSON. 'features' must be a list \n"
                 return  
             
             if len(features) != 4:
                 resp.status = falcon.HTTP_400
-                resp.body = "Invalid features list. 'features' length must be 4"
+                resp.body = "Invalid features list. 'features' length must be 4 \n"
                 return  
 
             prediction = predict_knn(features, self.model)
             self.logger.info('IrisPredictor: the prediction is %s' % prediction)
             response = {"predicted_class": prediction}
-            self.logger.info('IrisPredictor: Sending the results')
+            self.logger.info('IrisPredictor: Sending the results \n')
             
             resp.status = falcon.HTTP_200
             resp.body = json.dumps(response) + '\n'

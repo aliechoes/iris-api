@@ -57,8 +57,8 @@ logger.info('Service config: %s' % config)
 
 """ Part 2 """
 # Resources
-iris_predictor = IrisPredictor(model_path, logger)
+iris_api = IrisPredictor(model_path, logger)
 
 """ Part 3 """
 # face_detection_resource
-app.add_route("/iris_predictor", iris_predictor)
+app.add_route("/iris_api", iris_api)
