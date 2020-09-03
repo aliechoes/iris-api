@@ -8,6 +8,14 @@ import falcon
 
 
 def predict_knn(features, model):
+    """
+    This function gets the features and models and predicts the output
+    Args:
+        features(list): list of features. It must include 4 floating numbers
+        model(sklearn model): knn sklearn model, loaded from models folder
+    output:    
+        prediceted_class(str)
+    """
     classes = ['setosa', 'versicolor', 'virginica']
     listed_features = [features]
     predicted_class = model.predict(listed_features)[0]
@@ -21,6 +29,14 @@ class IrisPredictor():
         self.logger.info("Starting: IrisPredictor")
     
     def on_post(self, req, resp):
+        """
+        This method checks: 
+            0) read the json file
+            1) check if 'features' exists 
+            2) check if the feature list is valid
+            3) predicts the results
+            4) Sends back the results
+        """
         try:
             self.logger.info("IrisPredictor: reading file")
             request_bytes = req.stream.read()

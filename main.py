@@ -35,8 +35,8 @@ def load_yaml(file_path):
 """ 
 In this part, the app initialized to create an API. There are multiple steps to be followed:
 1) Initializing the API, loading the config file and loading the logger
-2) Initializing different modules
-3) adding routes
+2) Initializing IrisPredictor
+3) adding the route
 """
 
 
