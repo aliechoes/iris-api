@@ -8,6 +8,7 @@ import falcon
 
 
 def predict_knn(features, model):
+
     """
     This function gets the features and models and predicts the output
     Args:
@@ -16,13 +17,14 @@ def predict_knn(features, model):
     output:    
         prediceted_class(str)
     """
+    
     classes = ['setosa', 'versicolor', 'virginica']
     listed_features = [features]
     predicted_class = model.predict(listed_features)[0]
     return classes[predicted_class]
 
 ### resource
-class IrisPredictor():
+class IrisPredictorResource():
     def __init__(self, model_path, logger):
         self.logger = logger
         self.model = pickle.load(open(model_path, 'rb'))

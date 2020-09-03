@@ -2,11 +2,9 @@ import sys
 import os
 import io
 import logging
-import json
 import falcon
 import yaml
-import numpy as np
-from resources.IrisPredictor import IrisPredictor
+from resources.IrisPredictorResource import IrisPredictorResource
 
 def init_logging():
     """Initialize logging to write to STDOUT."""
@@ -40,7 +38,7 @@ In this part, the app initialized to create an API. There are multiple steps to 
 """
 
 
-""" Part 1 """
+## Part 1 
 app = falcon.API()
 
 config_path = os.environ.get('FACE_DETECTION_CONFIG', None)
@@ -55,10 +53,8 @@ logger = init_logging()
 logger.info('Service config: %s' % config)
 
 
-""" Part 2 """
-# Resources
-iris_api = IrisPredictor(model_path, logger)
+## Part 2: Resources
+iris_api = IrisPredictorResource(model_path, logger)
 
-""" Part 3 """
-# face_detection_resource
+## Part 3: iris_api
 app.add_route("/iris_api", iris_api)
