@@ -1,31 +1,9 @@
 language: python
 
 python:
-  	- "3.7"
+	- "3.7"
 
 install:
-  	- if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-  		wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-  	else
-		wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-  	fi
-	- bash miniconda.sh -b -p $HOME/miniconda
-	- source "$HOME/miniconda/etc/profile.d/conda.sh"
-	- hash -r
-	- conda config --set always_yes yes --set changeps1 no
-	- conda update -q conda
-	# Useful for debugging any issues with conda
-	- conda info -a
-	# Replace dep1 dep2 ... with your dependencies
-	- conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
-	- conda activate test-environment
-  	- conda install -c anaconda pyyaml 
-  	- conda install -c conda-forge scipy
-  	- conda install -c conda-forge numpy
-  	- conda install scikit-learn==0.21.3
-  	- conda install -c conda-forge gevent
-  	- conda install -c conda-forge gunicorn>=19.0
-  	- conda install -c conda-forge falcon>=2.0
-
+	-  pip install requirements.txt
 script:
-  	- pytest
+	- pytest
