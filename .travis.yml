@@ -1,9 +1,16 @@
 language: python
 
 python:
-  - "3.5"
-  - "3.6"      # current default Python on Travis CI
   - "3.7"
+
+install:
+  - conda install -c anaconda pyyaml 
+  - conda install -c conda-forge scipy
+  - conda install -c conda-forge numpy
+  - conda install scikit-learn==0.21.3
+  - conda install -c conda-forge gevent
+  - conda install -c conda-forge gunicorn>=19.0
+  - conda install -c conda-forge falcon>=2.0
 
 script:
   - pytest
