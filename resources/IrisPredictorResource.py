@@ -6,6 +6,15 @@ import numpy as np
 import falcon
 
 
+def error_output(resp, messsage):
+    resp.status = falcon.HTTP_400
+    resp.body = messsage
+    return resp
+
+def ok_output(resp, results):
+    resp.status = falcon.HTTP_200
+    resp.body = json.dumps(results) + '\n'
+    return resp
 
 def predict_knn(features, model):
 
@@ -48,34 +57,30 @@ class IrisPredictorResource():
             
             except Exception as e:
                 self.logger.error(e, exc_info=True)
-                resp.status = falcon.HTTP_400
-                resp.body = "Invalid JSON\n"
+                resp = error_output(resp, "Invalid JSON\n") 
                 return
         
             if "features" not in request:
-                resp.status = falcon.HTTP_400
-                resp.body = "Invalid JSON\n"
+                resp = error_output(resp, "Invalid JSON\n") 
                 return                
 
             features = request["features"]
             
             if not isinstance(features, list):
-                resp.status = falcon.HTTP_400
-                resp.body = "Invalid JSON. 'features' must be a list \n"
+                resp = error_output(resp, "Invalid JSON. \
+                                        'features' must be a list \n")  
                 return  
             
             if len(features) != 4:
-                resp.status = falcon.HTTP_400
-                resp.body = "Invalid features list. 'features' length must be 4 \n"
+                resp = error_output(resp, "Invalid features list. 'features' length must be 4 \n")  
                 return  
 
             prediction = predict_knn(features, self.model)
             self.logger.info('IrisPredictor: the prediction is %s' % prediction)
-            response = {"predicted_class": prediction}
+            results = {"predicted_class": prediction}
             self.logger.info('IrisPredictor: Sending the results \n')
             
-            resp.status = falcon.HTTP_200
-            resp.body = json.dumps(response) + '\n'
+            resp = ok_output(resp, results) 
 
         except Exception as e:
             self.logger.error(e, exc_info=True)
